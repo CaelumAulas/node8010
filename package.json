@@ -1,0 +1,28 @@
+{
+  "name": "casadocodigo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaelumAulas/node8010.git"
+  },
+  "author": "Vanessa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CaelumAulas/node8010/issues"
+  },
+  "homepage": "https://github.com/CaelumAulas/node8010#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
