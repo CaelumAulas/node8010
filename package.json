@@ -20,7 +20,8 @@
   "homepage": "https://github.com/CaelumAulas/node8010#readme",
   "dependencies": {
     "ejs": "^2.6.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
