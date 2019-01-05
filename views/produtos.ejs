@@ -21,17 +21,11 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(let n = 0; n < livros.length; n++) { %>
+                <% for(let livro of listaLivros) { %>
                 <tr>
-                    <td>
-                        <%= livros[n].titulo %>
-                    </td>
-                    <td>
-                        <%= livros[n].preco %>
-                    </td>
-                    <td>
-                        <%= livros[n].descricao %>
-                    </td>
+                    <td><%= livro.titulo %></td>
+                    <td><%= livro.preco %></td>
+                    <td><%= livro.descricao %></td>
                 </tr>
                 <% } %>
             </tbody>

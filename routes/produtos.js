@@ -1,19 +1,17 @@
 module.exports = function (app){
     app.get('/produtos', function(request,response){
-        //response.render('produtos/lista')
 
-        const mysql = require('mysql')
-
-        let conexao = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'casadocodigo'
-        })
-
-        conexao.query('SELECT * FROM livros', function(erro, resultados ){
+        const conexao = require('../config/connectionFactory')()
+        
+        conexao.query('SELECT * FROM livros', function(erro, resultados){
+            //console.log(resultados);
             //response.send(resultados)
-            response.render('produtos/lista', {livros: resultados})
+
+            if(erro){
+                response.render('erro', {erro})
+            } else {
+                response.render('produtos', {listaLivros: resultados})
+            }
         })
 
         conexao.end();
