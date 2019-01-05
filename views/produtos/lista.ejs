@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Produtos</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <title>Casa do Código</title>
 </head>
+
 <body>
-    <h1>Lista de Produtos</h1>
+    <div class="container">
+        <h1>Lista de produtos</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let n = 0; n < livros.length; n++) { %>
+                <tr>
+                    <td>
+                        <%= livros[n].titulo %>
+                    </td>
+                    <td>
+                        <%= livros[n].preco %>
+                    </td>
+                    <td>
+                        <%= livros[n].descricao %>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>

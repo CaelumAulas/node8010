@@ -11,8 +11,9 @@ module.exports = function (app){
             database: 'casadocodigo'
         })
 
-        conexao.query('SELECT * FROM livros', function(erro, resultados, campos){
-            response.send(resultados)
+        conexao.query('SELECT * FROM livros', function(erro, resultados ){
+            //response.send(resultados)
+            response.render('produtos/lista', {livros: resultados})
         })
 
         conexao.end();
