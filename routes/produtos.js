@@ -1,17 +1,16 @@
 module.exports = function (app){
-    app.get('/produtos', function(request,response){
+    app.get('/produtos', function(request,response, next){
 
         const conexao = require('../config/connectionFactory')()
-        
-        conexao.query('SELECT * FROM livros', function(erro, resultados){
-            //console.log(resultados);
-            //response.send(resultados)
+        const ProdutoDao = require('../repository/produtoDao');
+        const produtoDao = new ProdutoDao(conexao)
 
-            if(erro){
-                response.render('erro', {erro})
-            } else {
-                response.render('produtos', {listaLivros: resultados})
-            }
+        produtoDao.listar(function(erro, resultados){
+            
+            if(erro) return next(erro);
+                
+            response.render('produtos', {listaLivros: resultados})
+            
         })
 
         conexao.end();
