@@ -1,16 +1,27 @@
-const express = require('express')
+const express = require('express');
+const consign = require('consign');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 
 module.exports = function () {
     const app = express();
     app.set('view engine', 'ejs');
+    
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
+
+    app.use(expressValidator());
 
     app.use('/static', 
         express.static('node_modules/bootstrap/dist/')
     );
 
-    require('./routes/index')(app)
-    require('./routes/produtos')(app);
-
+    consign()
+        .include('./routes')
+        .then('./config')
+        .then('./repository')
+        .into(app);
+        
     app.use(function (request, response, next) {
         console.log(request.originalUrl);
         let error = "Página nao encontrada" + request.originalUrl;

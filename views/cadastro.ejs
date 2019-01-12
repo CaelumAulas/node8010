@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <title>Cadastro de livros</title>
+</head>
+<body>
+<div class="container">
+    <h1>Cadastro de Livros</h1>
+    
+    <% if(locals.errors){ %>
+        <% errors.forEach(erro => { %>
+            <p class="alert alert-danger">
+                <%= erro.msg %>
+            </p>
+        <% }); %>
+    <% } %>
+
+    <form action="/produtos" method="post" class="col-6">
+        <div class="form-group">
+            <label for="titulo">Titulo</label>
+            <input value="<%= livro.titulo %>" id="titulo" name="titulo" type="text" class="form-control">
+            <% if(locals.errors){ %>
+            <p class="alert alert-danger">
+                <%= errors[0].msg %>
+            </p>
+            <% } %>
+        </div>
+
+        <div class="form-group">
+            <label for="preco">Preço</label>
+            <input value="<%= livro.preco %>" id="preco" name="preco" type="text" class="form-control">
+            <% if(locals.errors){ %>
+            <p class="alert alert-danger">
+                <%= errors[1].msg %>
+            </p>
+            <% } %>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea name="descricao" id="descricao" class="form-control"><%= livro.descricao %></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+    </form>
+</div>
+</body>
+</html>

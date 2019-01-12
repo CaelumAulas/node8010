@@ -12,4 +12,4 @@ function connectionFactory (){
     return conexao
 }
 
-module.exports = connectionFactory
+module.exports = () => connectionFactory;
