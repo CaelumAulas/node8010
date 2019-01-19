@@ -44,7 +44,7 @@ module.exports = function (app){
             .cadastrar(request.body)
             .then( () => {
                 response.format({
-                    html: () => response.redirect('/produtos')
+                    html: () => response.status(302).redirect('/produtos')
                     ,json: () => response.json({contente: request.body})
                 })
             })

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <title>Casa do código - Estoque</title>
+</head>
+<body>
+    <h2 class="basic-title">Estoque</h2>
+    
+    <div class="mensagens"></div>
+    
+    <!--  tabela de dados de estoque -->
+    <table id="estoque" class="table table-condensed table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Livro</th>
+                <th>Estoque</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+    <div id="detalhes-item-estoque"></div>
+    
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script>
+        var SERVER = 'http://localhost:3001';
+        var URL_LISTA_ITENS_ESTOQUE = SERVER + '/estoque/itens?callback=?';
+        var URL_DETALHE_ITEM_ESTOQUE = SERVER + '/estoque/itens/';
+
+        $.ajax(URL_LISTA_ITENS_ESTOQUE)
+            .done(preencheTabelaDeEstoque)
+            .fail(trataErro);
+
+        function preencheTabelaDeEstoque(dados) {
+            //sucesso...
+            dados.forEach(function (itemEstoque) {
+                var linha = $('<tr>').addClass('item-estoque').data('id', itemEstoque.id).data('numero-itens', itemEstoque.numero_itens);
+                $('<td>').addClass('identificador').text(itemEstoque.id).appendTo(linha);
+                $('<td>').text(itemEstoque.titulo).appendTo(linha);
+                $('<td>').addClass('numero-itens').text(itemEstoque.numero_itens).appendTo(linha);
+                $('<td>').addClass('text-center')
+                    .append($('<span>').addClass('glyphicon glyphicon-info-sign').text('🤔').click(buscaDetalhesDeEstoque))
+                    .appendTo(linha);
+                $('<td>').addClass('text-center')
+                    .append($('<span>').addClass('glyphicon glyphicon-circle-arrow-up').text('⬆').click(incrementaItemEstoque))
+                    .append($('<span>').addClass('glyphicon glyphicon-circle-arrow-down').text('⬇').click(decrementaItemEstoque))
+                    .appendTo(linha);
+                linha.appendTo('#estoque tbody')
+            });
+        }
+
+        function buscaDetalhesDeEstoque() {
+            var id = $(this).closest('.item-estoque').data('id');
+            $.getJSON(URL_DETALHE_ITEM_ESTOQUE + id)
+                .done(function (itemEstoque) {
+                    var lista = $('<dl>').addClass('dl-horizontal');
+                    $('<dt>').text('Id').appendTo(lista);
+                    $('<dd>').text(itemEstoque.id).appendTo(lista);
+                    $('<dt>').text('Título').appendTo(lista);
+                    $('<dd>').text(itemEstoque.titulo).appendTo(lista);
+                    $('<dt>').text('Itens em estoque').appendTo(lista);
+                    $('<dd>').text(itemEstoque.numero_itens).appendTo(lista);
+                    $('<dt>').text('Descrição').appendTo(lista);
+                    $('<dd>').text(itemEstoque.descricao).appendTo(lista);
+                    $('#detalhes-item-estoque').empty().append(lista);
+                })
+                .fail(trataErro);
+        }
+
+        function incrementaItemEstoque() {
+            atualizaItemEstoque(this, 1);
+        }
+
+        function decrementaItemEstoque() {
+            atualizaItemEstoque(this, -1);
+        }
+
+        function atualizaItemEstoque(elemento, delta) {
+            var item = $(elemento).closest('.item-estoque');
+            var id = item.data('id');
+            var numeroItens = item.data('numero-itens') + delta;
+            $.ajax({
+                url: URL_DETALHE_ITEM_ESTOQUE + id,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: 'PATCH',
+                data: JSON.stringify({ numero_itens: numeroItens }),
+                success: function (response, textStatus, jqXhr) {
+                    item.data('numero-itens', numeroItens);
+                    item.find('.numero-itens').text(numeroItens);
+                    var mensagem = $('<p>').addClass('alert alert-success').text('Número de itens atualizado com sucesso.');
+                    $('.mensagens').empty().append(mensagem);
+                    $('#detalhes-item-estoque').empty()
+                },
+                error: trataErro
+            });
+        }
+
+        function trataErro() {
+            var mensagem = $('<p>').addClass('alert alert-danger').text('Erro na comunicação com o servidor.');
+            $('.mensagens').empty().append(mensagem);
+        }
+    </script>
+</body>
+</html>

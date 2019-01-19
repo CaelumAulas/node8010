@@ -1,0 +1,8 @@
+curl 
+ -H "Content-Type: application/json"
+ -X PATCH
+ -d '{"numero_itens": 8}'
+ http://localhost:3001/estoque/itens/1
+
+
+curl -H "Content-Type: application/json" -X PATCH -d '{"numero_itens": 8}' http://localhost:3001/estoque/itens/1
