@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WS </title>
+    <style> 
+        textarea {
+            border: 4px solid #333;
+            height: 50vh;
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h1>collab doc :D</h1>
+<textarea>
+    oii
+</textarea>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const textarea = document.querySelector('textarea')
+
+    textarea.addEventListener('input', () => {
+        socket.emit('escreveu', textarea.value)
+    })
+
+    socket.on('alguemEscreveu', function(textoDosOutros){
+        textarea.value = textoDosOutros
+    })
+
+</script>
+</body>
+</html>
